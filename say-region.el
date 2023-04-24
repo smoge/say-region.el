@@ -33,23 +33,56 @@
   :link '(url-link :tag "GitHub" "https://github.com/smoge/say-region.el/")
   )
 
+
+(defun say-region-command ()
+  "Get the appropriate text-to-speech command based on the operating system."
+  (cond ((eq system-type 'darwin)
+         "say")
+        ((eq system-type 'gnu/linux)
+         "espeak")
+        (t (error "Unsupported operating system"))))
+
+
+;; (defun say-region ()
+;;   "Send the region to `say'."
+;;   (interactive)
+;;   (if (use-region-p)
+;;       (let ((proc (start-process "say-process" "say-buffer" "say")))
+;;         (process-send-region proc (region-beginning) (region-end)))
+;;     (message "No active region to send to `say'.")))
+
 (defun say-region ()
-  "Send the region to `say'."
+  "Send the region to the appropriate text-to-speech command."
   (interactive)
   (if (use-region-p)
-      (let ((proc (start-process "say-process" "say-buffer" "say")))
+      (let ((proc (start-process "say-process" "say-buffer" (say-region-command))))
         (process-send-region proc (region-beginning) (region-end)))
-    (message "No active region to send to `say'.")))
+    (message "No active region to send to text-to-speech command.")))
+
+
+
+;; (defun say-region-kill-process ()
+;;   "Kill running say processes."
+;;   (interactive)
+;;   (let ((killed-count 0))
+;;     (dolist (process (process-list))
+;;       (when (string-prefix-p "say" (process-name process))
+;;         (delete-process process)
+;;         (setq killed-count (1+ killed-count))))
+;;     (message (format "%d say processes killed." killed-count))))
 
 (defun say-region-kill-process ()
-  "Kill running say processes."
+  "Kill running say or espeak processes, depending on the operating system."
   (interactive)
-  (let ((killed-count 0))
+  (let ((killed-count 0)
+        (process-prefix (if (eq system-type 'gnu/linux) "espeak" "say")))
     (dolist (process (process-list))
-      (when (string-prefix-p "say" (process-name process))
+      (when (string-prefix-p process-prefix (process-name process))
         (delete-process process)
         (setq killed-count (1+ killed-count))))
-    (message (format "%d say processes killed." killed-count))))
+    (message (format "%d %s processes killed." killed-count process-prefix))))
+
+
 
 (define-minor-mode say-region-mode
   "Toggle say-region mode."
@@ -59,4 +92,11 @@
             (define-key map (kbd "C-c k") 'say-region-kill-process)
             map))
 
+
+
+
+
+
 (provide 'say-region)
+
+;;; say-region.el ends here
