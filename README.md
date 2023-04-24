@@ -2,7 +2,7 @@
 
 An Emacs package that sends a selected region of text to the macOS `say` command, which reads the text out loud using the default text-to-speech voice.
 
--- UPDATE: there is a espeak alternative (works on linux) on the package now --
+-- UPDATE: there is an `espeak` alternative when on linux now. Let me know how that works. --
 
 ## Installation
 
