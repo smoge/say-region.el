@@ -1,20 +1,35 @@
+# say-region.el
 
-# Say Region
-
-Say Region is a simple Emacs package that sends the selected region to the `say` command, allowing you to listen to the text you've selected.
+An Emacs package that sends a selected region of text to the macOS `say` command, which reads the text out loud using the default text-to-speech voice.
 
 ## Installation
 
-Place the `say-region.el` file in a directory that's part of your Emacs `load-path` and add the following line to your Emacs configuration:
+1. Clone the repository or download the `say-region.el` file.
+2. Add the following lines to your Emacs configuration (`init.el` or `.emacs`):
 
 ```elisp
+(add-to-list 'load-path "/path/to/say-region.el")
 (require 'say-region)
 ```
 
+Replace `/path/to/say-region.el` with the actual path to the `say-region.el` file.
+
 ## Usage
 
-Select a region in your Emacs buffer and press `C-c s` to start the `say` process, which will read the text aloud. To kill the running `say` process, press `C-c k`.
+1. Enable `say-region-mode` in a buffer:
 
-## Note
+```elisp
+M-x say-region-mode
+```
 
-This package relies on the `say` command, which is available only on MacOS. It will not work on other operating systems without modifications.
+2. Select a region of text in the buffer.
+3. Press `C-c s` to send the selected region to the `say` command, which reads the text aloud.
+4. To stop the speech, press `C-c k` to kill any running say processes.
+
+## Limitations
+
+This package is designed for macOS and uses the macOS-specific `say` command. It is not compatible with other operating systems without modifications.
+
+## Contributing
+
+Feel free to submit pull requests, report bugs, or suggest new features by opening an issue on the GitHub repository.

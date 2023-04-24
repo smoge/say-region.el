@@ -36,20 +36,27 @@
 (defun say-region ()
   "Send the region to `say'."
   (interactive)
-  (let ((proc (start-process "say-process" "say-buffer" "say" )))
-    (process-send-region proc (region-beginning) (region-end))))
+  (if (use-region-p)
+      (let ((proc (start-process "say-process" "say-buffer" "say")))
+        (process-send-region proc (region-beginning) (region-end)))
+    (message "No active region to send to `say'.")))
 
 (defun say-region-kill-process ()
-  "Kill running say processes in current buffer."
+  "Kill running say processes."
   (interactive)
-  (let ((processes (process-list)))
-    (dolist (process processes)
+  (let ((killed-count 0))
+    (dolist (process (process-list))
       (when (string-prefix-p "say" (process-name process))
-        (delete-process process)))))
+        (delete-process process)
+        (setq killed-count (1+ killed-count))))
+    (message (format "%d say processes killed." killed-count))))
 
-(global-set-key (kbd "C-c s") 'say-region)
-(global-set-key (kbd "C-c k") 'say-region-kill-process)
+(define-minor-mode say-region-mode
+  "Toggle say-region mode."
+  :lighter " SayR"
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "C-c s") 'say-region)
+            (define-key map (kbd "C-c k") 'say-region-kill-process)
+            map))
 
 (provide 'say-region)
-
-;;; say-region.el ends here
