@@ -2,6 +2,8 @@
 
 An Emacs package that sends a selected region of text to the macOS `say` command, which reads the text out loud using the default text-to-speech voice.
 
+-- UPDATE: there is a espeak alternative (works on linux) on the package now --
+
 ## Installation
 
 1. Clone the repository or download the `say-region.el` file.
