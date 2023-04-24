@@ -1,7 +1,7 @@
 ;; say-region.el --- Send the region to `say' command -*- lexical-binding: t -*-
 
-;; Author: Your Name <your.email@example.com>
-;; URL: https://github.com/yourusername/say-region
+;; Author: Bernardo Barros
+;; URL: https://github.com/smoge/say-region.el/
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "24.3"))
 
@@ -30,7 +30,7 @@
   "Send the region to the `say' command."
   :prefix "say-region-"
   :group 'external
-  ;;:link '(url-link :tag "GitHub" "https://github.com/yourusername/say-region")
+  :link '(url-link :tag "GitHub" "https://github.com/smoge/say-region.el/")
   )
 
 (defun say-region ()
